@@ -1,8 +1,9 @@
 ---
 plan: morning-digest
-status: ready
+status: done
 owner: rook
 opened: 2026-10-29
+closed: 2026-11-08
 ---
 
 # Morning digest
@@ -77,3 +78,19 @@ page again with `LANE_MARKER` unset (the banner reads "no marker set") and uploa
 link. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link no longer shows the lane marker.
+
+## Issues
+
+| # | Issue | Blocked by | Worker | Closed |
+|---|-------|-----------|--------|--------|
+| 1 | Run log reader | — | omp · opus-5.5 · low | 2026-11-08 |
+| 2 | Digest page: `GET /digest/:night` | #1 (types) | omp · opus-5.5 · low | 2026-11-08 |
+| 3 | Digest JSON: `GET /api/digest/:night` | #1 (types) | omp · opus-5.5 · low | 2026-11-08 |
+| 4 | Board link to each night's digest | #1 (types) | omp · opus-5.5 · low | 2026-11-08 |
+| 5 | Route tests for the digest page and JSON | #1 (types); green after #2, #3 | omp · opus-5.5 · low | 2026-11-08 |
+| 6 | Preview for review | #2 | omp · opus-5.5 · high | 2026-11-08 |
+| 7 | Clean up the preview | #6, review in | omp · opus-5.5 · high | 2026-11-08 |
+
+Board counts are per job, by last status: a row has no per-line ok/fail counts.
+The preview is published by `.github/workflows/preview.yml` (GitHub Pages), so no copy is in git.
+#6 was closed once before the review and opened again: it stays open until the review is in.
