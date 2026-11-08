@@ -1,0 +1,47 @@
+# Preview for review (plan § 3, § 4; ADR 0003). Run by hand: it saves /digest/2026-10-28 as one
+# HTML file and publishes it to GitHub Pages, over the previous copy. The file is never committed.
+# Clean-up: run again with an empty marker; the banner then reads "no marker set".
+name: preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      marker:
+        description: LANE_MARKER for the banner (empty = no marker set)
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: pnpm install --no-frozen-lockfile
+      - name: Save the page
+        env:
+          LANE_MARKER: ${{ inputs.marker }}
+        run: scripts/save-preview.sh _site/index.html /digest/2026-10-28
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
